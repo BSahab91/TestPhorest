@@ -1,8 +1,6 @@
 package giftcard;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,11 +8,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -37,7 +35,7 @@ public class TestPhoster {
     }
 
     @Test
-    public void test_send_to_me_success_flow() throws InterruptedException {
+    public void test_send_to_me_success_flow(){
         driver.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/div[2]/div[1]/ul/li[1]/span")).click();
         driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("rohit@gmail.com");
         driver.findElement(By.xpath("//input[@placeholder='first name ...']")).sendKeys("tikiboom");
@@ -63,17 +61,17 @@ public class TestPhoster {
 
 
     @Test
-    public void test_send_to_someone_else_success_flow() throws InterruptedException {
+    public void test_send_to_someone_else_success_flow(){
 
         driver.findElement(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")).click();
         final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")));
         element.click();
         driver.findElement(By.xpath("//span[contains(text(),'$50')]")).click();
-        driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("xyz@cv.com");
+        driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("731d7a4f31-b6c258@inbox.mailtrap.io");
         driver.findElement(By.xpath("  //input[@placeholder='first name ...']")).sendKeys("fwgw");
         driver.findElement(By.xpath("  //input[@placeholder='last name ...']")).sendKeys("fwdafaw");
         wait.withTimeout(Duration.ofSeconds(3));
-        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/input[1]")).sendKeys("fteaw@wrw.com");
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/input[1]")).sendKeys("f731d7a4f31-b6c258@inbox.mailtrap.io");
         driver.findElement(By.xpath("//textarea[@placeholder='type your message here eg. Hi Mom, Happy Birthday! Love Karen']")).sendKeys("dqfq");
         final WebElement checkout = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div[2]/button"));
         checkout.click();
@@ -99,7 +97,7 @@ public class TestPhoster {
     }
 
     @Test
-    public void AmountVisible() {
+    public void test_elements_content_are_valid_on_web_page() {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//span[contains(text(),'$50')]"))));
         WebElement string = driver.findElement(By.xpath("//span[contains(text(),'$50')]"));
         Assert.assertEquals(string.getText(), "$50");
@@ -110,7 +108,7 @@ public class TestPhoster {
     }
 
     @Test
-    public void should_show_error_on_amount_below_25(){
+    public void should_show_error_on_amount_below_25() {
         driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[4]/span[1]")).click();
         driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]")).sendKeys("20");
         WebElement errorMessage = driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]"));
@@ -118,16 +116,56 @@ public class TestPhoster {
     }
 
     @Test
-    public void should_show_error_on_amount_above_400(){
+    public void should_show_error_on_amount_above_400() {
         driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[4]/span[1]")).click();
         driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]")).sendKeys("500");
         WebElement errorMessage = driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]"));
         Assert.assertTrue(errorMessage.getText().equals("The minimum spend is $25 and the maximum spend is $400."));
     }
 
+
+    @Test
+    public void test_email_was_delivered(){
+         test_send_to_me_success_flow();
+        //Test Email was dlivered
+
+        driver.get("https://mailtrap.io/signin");       //Using mailTrap free smtp server
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebElement email = driver.findElement(By.xpath("//input[@type='email']"));
+        email.sendKeys("priyam.bhadauria@gmail.com");
+        WebElement password = driver.findElement(By.xpath("//input[@type='password']"));
+        password.sendKeys("123123");
+        driver.findElement(By.xpath("//input[@type='submit']")).click();
+        driver.findElement(By.xpath("//a[@title='Demo inbox']")).click();
+        //Check if inbox has email
+        final List<WebElement> allMessages = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
+        //check is the list is not empty
+       // Assert.assertTrue(allMessages.size() == 1);
+    }
+
+
+    @Test
+    public void test_2_emails_delivered_on_gifting_to_other(){
+        test_send_to_someone_else_success_flow();
+        driver.get("https://mailtrap.io/signin");       //Using mailTrap free smtp server
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebElement email = driver.findElement(By.xpath("//input[@type='email']"));
+        email.sendKeys("priyam.bhadauria@gmail.com");
+        WebElement password = driver.findElement(By.xpath("//input[@type='password']"));
+        password.sendKeys("123123");
+        driver.findElement(By.xpath("//input[@type='submit']")).click();
+        driver.findElement(By.xpath("//a[@title='Demo inbox']")).click();
+        //Check if inbox has email
+        final List<WebElement> acknowledgementMail = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
+        //check is the list is not empty
+        //Assert.assertTrue(acknowledgementMail.size() == 1);
+        final List<WebElement> receipt_mail = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
+        //Assert.assertTrue(receipt_mail.size() == 1);
+    }
+
     @AfterMethod
     public void cleanup() throws InterruptedException {
-   //     driver.close();
-   //     driver.quit();
+             driver.close();
+             driver.quit();
     }
 }
