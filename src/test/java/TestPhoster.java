@@ -26,6 +26,7 @@ public class TestPhoster {
         wait = new WebDriverWait(driver, 3);
         driver.get(baseUrl);
         //Setting Implicit timeout to 5 sec
+
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
