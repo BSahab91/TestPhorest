@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Default Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="PhorestTester(failed)">
+    <classes>
+      <class name="giftcard.TestPhoster">
+        <methods>
+          <include name="test_send_to_someone_else_success_flow"/>
+          <include name="test_send_to_me_success_flow"/>
+          <include name="setUp"/>
+          <include name="cleanup"/>
+        </methods>
+      </class> <!-- giftcard.TestPhoster -->
+    </classes>
+  </test> <!-- PhorestTester(failed) -->
+</suite> <!-- Failed suite [Default Suite] -->

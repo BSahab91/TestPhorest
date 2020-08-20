@@ -1,12 +1,18 @@
+package giftcard;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +24,7 @@ public class TestPhoster {
     private static WebDriver driver;       //So that all tests share the same driver & wait, initialize only once
     private static WebDriverWait wait;
 
-    @Before
+    @BeforeMethod
     public void setUp() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/priyambhadauria/Documents/chromedriver 2");
         driver = new ChromeDriver();
@@ -87,11 +93,41 @@ public class TestPhoster {
         driver.switchTo().defaultContent();
         driver.findElement((By.xpath("//button[@class='btn w-btn h-btn mx-auto border-brand bg-brand shadow-brand-md text-white text-lg leading-tight']"))).click();
 
+        //confirmation of final page
+// wrong email id also message is sent put undeer enhancement
+
     }
 
-    @After
+    @Test
+    public void AmountVisible() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//span[contains(text(),'$50')]"))));
+        WebElement string = driver.findElement(By.xpath("//span[contains(text(),'$50')]"));
+        Assert.assertEquals(string.getText(), "$50");
+        WebElement string2 = driver.findElement(By.xpath(("//span[contains(text(),'$100')]")));
+        Assert.assertEquals(string2.getText(), "$100");
+        driver.findElement(By.xpath(("//span[contains(text(),'Other')]"))).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//input[@placeholder='enter amount here...']")).isDisplayed());
+    }
+
+    @Test
+    public void should_show_error_on_amount_below_25(){
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[4]/span[1]")).click();
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]")).sendKeys("20");
+        WebElement errorMessage = driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]"));
+        Assert.assertTrue(errorMessage.getText().equals("The minimum spend is $25 and the maximum spend is $400."));
+    }
+
+    @Test
+    public void should_show_error_on_amount_above_400(){
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[4]/span[1]")).click();
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]")).sendKeys("500");
+        WebElement errorMessage = driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]"));
+        Assert.assertTrue(errorMessage.getText().equals("The minimum spend is $25 and the maximum spend is $400."));
+    }
+
+    @AfterMethod
     public void cleanup() throws InterruptedException {
-        driver.close();
-        driver.quit();
+   //     driver.close();
+   //     driver.quit();
     }
 }
