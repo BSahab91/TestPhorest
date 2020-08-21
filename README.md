@@ -26,3 +26,4 @@ I'm using MailTrap.io, which is a free smtp server used for mail verification.
 <br> - Login to the mailtrap server   
 <br> - Click the inbox & look for received messages with appropriate subject lines & store in a list
 <br> - Success if message list is of appropriate size. | Fo send_to_me 1 email & send_to_other 2 emails should be present.
+<br> Test cases - test_email_was_delivered() & test_2_emails_delivered_on_gifting_to_other()
