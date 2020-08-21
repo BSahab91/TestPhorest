@@ -138,9 +138,9 @@ public class TestPhoster {
         driver.findElement(By.xpath("//input[@type='submit']")).click();
         driver.findElement(By.xpath("//a[@title='Demo inbox']")).click();
         //Check if inbox has email
-        final List<WebElement> allMessages = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
+        final List<WebElement> allMessages = driver.findElements(By.xpath("//*[contains(text(), 'You've been sent a $50 gift card for Demo US!')]"));
         //check is the list is not empty
-       // Assert.assertTrue(allMessages.size() == 1);
+        Assert.assertTrue(allMessages.size() == 1);
     }
 
 
@@ -156,11 +156,11 @@ public class TestPhoster {
         driver.findElement(By.xpath("//input[@type='submit']")).click();
         driver.findElement(By.xpath("//a[@title='Demo inbox']")).click();
         //Check if inbox has email
-        final List<WebElement> acknowledgementMail = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
+        final List<WebElement> acknowledgementMail = driver.findElements(By.xpath("//*[contains(text(), 'You've been sent a $50 gift card for Demo US!')]"));
         //check is the list is not empty
-        //Assert.assertTrue(acknowledgementMail.size() == 1);
-        final List<WebElement> receipt_mail = driver.findElements(By.xpath("//*[contains(text(), 'Here comes an attachment')]"));
-        //Assert.assertTrue(receipt_mail.size() == 1);
+        Assert.assertTrue(acknowledgementMail.size() == 1);
+        final List<WebElement> receipt_mail = driver.findElements(By.xpath("//*[contains(text(), 'Your Receipt for Arden Courts')]"));
+        Assert.assertTrue(receipt_mail.size() == 1);
     }
 
     @AfterMethod
