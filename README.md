@@ -8,6 +8,9 @@ The test-run reports can be viewed [here](NGReportSS.png)
 <br>And I have also attached the Report html files.
 
 
+
+
+
 Running Information -
 
 Clone this project from github
@@ -17,6 +20,9 @@ Clone this project from github
 The test-suite can be run by using the below command -
  
 <b>mvn clean test -Dtestng.dtd.http=true -DsuiteXmlFile=testng.xml</b>
+
+<br>To run individual test cases, import this project to your IDE & in the run-vm options add this flag ->  -Dtestng.dtd.http=true
+<br> <i>We have to add this flag because testNG, doesn't support insecure http URL calls otherwise.</i>
 
 <br>
 <h3>Email Verification</h3>

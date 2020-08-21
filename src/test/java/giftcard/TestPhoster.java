@@ -67,11 +67,11 @@ public class TestPhoster {
         final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")));
         element.click();
         driver.findElement(By.xpath("//span[contains(text(),'$50')]")).click();
-        driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("731d7a4f31-b6c258@inbox.mailtrap.io");
+        driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("731d7a4f31b6c258@inbox.mailtrap.io");
         driver.findElement(By.xpath("  //input[@placeholder='first name ...']")).sendKeys("fwgw");
         driver.findElement(By.xpath("  //input[@placeholder='last name ...']")).sendKeys("fwdafaw");
         wait.withTimeout(Duration.ofSeconds(3));
-        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/input[1]")).sendKeys("f731d7a4f31-b6c258@inbox.mailtrap.io");
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/input[1]")).sendKeys("f731d7a4f31b6c258@inbox.mailtrap.io");
         driver.findElement(By.xpath("//textarea[@placeholder='type your message here eg. Hi Mom, Happy Birthday! Love Karen']")).sendKeys("dqfq");
         final WebElement checkout = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div[2]/button"));
         checkout.click();
@@ -93,6 +93,49 @@ public class TestPhoster {
 
         //confirmation of final page
 // wrong email id also message is sent put undeer enhancement
+
+    }
+
+    @Test
+    public void test_edit_voucher_flow(){
+        driver.findElement(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")).click();
+        final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")));
+        element.click();
+        driver.findElement(By.xpath("//span[contains(text(),'$50')]")).click();
+        driver.findElement(By.xpath("//input[@placeholder='the receipt will be sent here ...']")).sendKeys("731d7a4f31b6c258@inbox.mailtrap.io");
+        driver.findElement(By.xpath("  //input[@placeholder='first name ...']")).sendKeys("fwgw");
+        driver.findElement(By.xpath("  //input[@placeholder='last name ...']")).sendKeys("fwdafaw");
+        wait.withTimeout(Duration.ofSeconds(3));
+        driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[4]/input[1]")).sendKeys("f731d7a4f31b6c258@inbox.mailtrap.io");
+        driver.findElement(By.xpath("//textarea[@placeholder='type your message here eg. Hi Mom, Happy Birthday! Love Karen']")).sendKeys("dqfq");
+        final WebElement checkout = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div[2]/button"));
+        checkout.click();
+        wait.withTimeout(Duration.ofSeconds(3));
+        driver.findElement(By.xpath("html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/button[1]")).click();
+        wait.withTimeout(Duration.ofSeconds(3));
+        driver.findElement(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")).click();
+        final WebElement element1 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/div[2]/div/div/div[1]/div[2]/div[2]/div/nav/a[2]")));
+        element1.click();
+        driver.findElement(By.xpath("//span[contains(text(),'$150')]")).click();
+        final WebElement checkout1 = driver.findElement(By.xpath("/html/body/div[2]/div/div/div[1]/div[1]/div[2]/div[2]/button"));
+        checkout1.click();
+        wait.withTimeout(Duration.ofSeconds(3));
+        driver.findElement((By.xpath("//button[@class='btn w-btn h-btn mx-auto border-brand bg-brand shadow-brand-md text-white text-lg leading-tight']"))).click();
+        ///html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/button[1]
+
+        final WebElement frame = driver.findElement(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/iframe[1]"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/form[1]/div[1]/iframe[1]")));
+        driver.switchTo().frame(frame);
+        driver.findElement(By.id("card-name")).sendKeys("tcydhfh");
+        driver.findElement(By.id("card-zip")).sendKeys("92606");
+        driver.findElement(By.id("card-number")).sendKeys("4111 1111 1111 1111");
+        driver.findElement(By.id("card-expiry")).sendKeys("12 22");
+        driver.findElement(By.id("card-security")).sendKeys("999");
+        driver.findElement((By.id("submitButton"))).click();
+        driver.findElement((By.id("submitButton"))).click();
+        wait.withTimeout(Duration.ofSeconds(3L));
+        driver.switchTo().defaultContent();
+        driver.findElement((By.xpath("//button[@class='btn w-btn h-btn mx-auto border-brand bg-brand shadow-brand-md text-white text-lg leading-tight']"))).click();
 
     }
 
